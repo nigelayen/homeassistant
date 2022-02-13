@@ -1,0 +1,22 @@
+# Basement Lights
+basement_lights:
+  name: Basement Lights
+  entities:
+    - light.basement1
+    - light.basement2
+
+# Outdoor lights
+outdoor_lights:
+  name: Outdoor Lights
+  entities:
+    - light.frontyard_2
+    - light.backyard_2
+
+# Living Room
+living_room_lights:
+  name: Living Room Lights
+  entities:
+    - light.hue_color_lamp_1
+    - light.hue_color_lamp_2
+    - light.hue_color_lamp_3
+    - light.hue_white_lamp_1
