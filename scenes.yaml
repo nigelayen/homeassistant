@@ -1,0 +1,53 @@
+- id: '1618777471709'
+  name: Basement Lights
+  entities:
+    light.basement2:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 194
+      friendly_name: basement2
+      supported_features: 0
+      state: 'on'
+    light.basement1_2:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 128
+      friendly_name: Basement1
+      supported_features: 0
+      state: 'on'
+- id: '1618777600319'
+  name: Movie Night
+  entities:
+    light.basement2:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 38
+      friendly_name: basement2
+      supported_features: 0
+      state: 'on'
+    light.basement1_2:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 23
+      friendly_name: Basement1
+      supported_features: 0
+      state: 'on'
+- id: '1634009771730'
+  name: Basement Off
+  entities:
+    light.basement2:
+      supported_color_modes:
+      - brightness
+      friendly_name: basement2
+      supported_features: 0
+      state: 'off'
+    light.basement1_2:
+      supported_color_modes:
+      - brightness
+      friendly_name: Basement1
+      supported_features: 0
+      state: 'off'

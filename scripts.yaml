@@ -1,0 +1,418 @@
+basement_tv_power:
+  alias: Basement TV Power
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Basement_TV
+      command: power
+  mode: single
+basement_tv_info:
+  alias: Basement TV Info
+  sequence:
+  - service: remote.send_command
+    data:
+      device: Basement_TV
+      command: info
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+  mode: single
+bell_tv_power:
+  alias: Bell TV Power
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: power
+  mode: single
+bell_tv_exit:
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: exit
+  mode: single
+  alias: Bell TV Exit
+bell_tv_guide:
+  alias: Bell TV Guide
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: guide
+  mode: single
+bell_tv_pvr:
+  alias: Bell TV PVR
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: pvr
+  mode: single
+bell_tv_select:
+  alias: Bell TV Select
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: select
+  mode: single
+bell_tv_up:
+  alias: Bell TV Up
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: 'Bell '
+      command: up
+  mode: single
+bell_tv_down:
+  alias: Bell TV Down
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: down
+  mode: single
+bell_tv_left:
+  alias: Bell TV Left
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: left
+  mode: single
+bell_tv_right:
+  alias: Bell TV Right
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: right
+  mode: single
+bell_tv_last:
+  alias: Bell TV Last
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: last
+  mode: single
+bell_tv_info:
+  alias: Bell TV Info
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: info
+  mode: single
+bell_tv_rec:
+  alias: Bell TV Rec
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: rec
+  mode: single
+bell_tv_rewind:
+  alias: Bell TV Rewind
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: rewind
+  mode: single
+bell_tv_forward:
+  alias: Bell TV Forward
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: forward
+  mode: single
+bell_tv_play_pause:
+  alias: Bell TV Play_Pause
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: play_pause
+  mode: single
+bell_tv_stop:
+  alias: Bell TV Stop
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: stop
+  mode: single
+bell_tv_back_10:
+  alias: Bell TV Back_10
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: back_10
+  mode: single
+bell_tv_forward_10:
+  alias: Bell TV Forward_10
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: forward_10
+  mode: single
+bell_tv_on_demand:
+  alias: Bell TV On_Demand
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: on_demand
+  mode: single
+denon_receiver_power:
+  alias: Denon Receiver Power
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: power
+  mode: single
+denon_receiver_volume_up:
+  alias: Denon Receiver Volume Up
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: volume_up
+  mode: single
+denon_receiver_volume_down:
+  alias: Denon Receiver Volume Down
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: volume_down
+  mode: single
+denon_receiver_cbl_sat:
+  alias: Denon Receiver CBL_SAT
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: cbl_sat
+  mode: single
+denon_receiver_dvd_blu_ray:
+  alias: Denon Receiver DVD_BLU_RAY
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: dvd_blu_ray
+  mode: single
+denon_receiver_blu_ray:
+  alias: Denon Receiver BLU_RAY
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: blu_ray
+  mode: single
+apple_tv_menu:
+  alias: Apple TV Menu
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Apple_TV
+      command: menu
+  mode: single
+apple_tv_up:
+  alias: Apple TV Up
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Apple_TV
+      command: up
+  mode: single
+apple_tv_down:
+  alias: Apple TV Down
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Apple_TV
+      command: down
+  mode: single
+apple_tv_left:
+  alias: Apple TV Left
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Apple_TV
+      command: left
+  mode: single
+apple_tv_right:
+  alias: Apple TV Right
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Apple_TV
+      command: right
+  mode: single
+apple_tv_select:
+  alias: Apple TV Select
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Apple_TV
+      command: select
+  mode: single
+hue_play_power:
+  alias: Hue Play Power
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Hue_play
+      command: power
+  mode: single
+bell_tv:
+  alias: Bell TV
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Basement_TV
+      command: power
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: power
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: power
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: cbl_sat
+  mode: single
+apple_tv:
+  alias: Apple TV
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Basement_TV
+      command: power
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: power
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Apple_TV
+      command: menu
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: dvd_blu_ray
+  mode: single
+power_off:
+  alias: Power Off
+  sequence:
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Basement_TV
+      command: power
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Bell
+      command: power
+  - service: remote.send_command
+    target:
+      entity_id: remote.broadlink_rm4_pro_remote
+    data:
+      device: Denon_Receiver
+      command: power
+  mode: single

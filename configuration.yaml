@@ -1,0 +1,230 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+homeassistant:
+  allowlist_external_dirs:
+    - /config/images
+  media_dirs:
+    local: /config/images
+  auth_providers:
+    - type: homeassistant
+  internal_url: !secret internal_url
+  external_url: !secret external_url
+
+recorder:
+  purge_keep_days: 5
+  db_url: mysql://homeassistant:C3YKiFhR*hu42!@core-mariadb/homeassistant?charset=utf8mb4
+  exclude:
+    domains:
+      - automation
+      - updater
+    entity_globs:
+      - sensor.weather_*
+    entities:
+      - sun.sun
+      - sensor.last_boot # Comes from 'systemmonitor' sensor platform
+    event_types:
+      - call_service # Don't record service calls
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+http:
+  server_port: 8123
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  login_attempts_threshold: 3
+
+# System Health
+system_health:
+
+default_config:
+ios:
+
+# menubar stuff
+hassio:
+
+# Stream
+stream:
+
+# Nest
+nest:
+  client_id: !secret client_id
+  client_secret: !secret client_secret
+  project_id: !secret project_id
+  subscriber_id: !secret subscriber_id
+
+# outdoor cameras (mjpeg and rtsp)
+camera:
+  - platform: mjpeg
+    name: Sidegate Camera Live
+    still_image_url: "http://plex.local:8765/picture/1/current/?_username=admin&_signature=6e23571cb117c2484f18a7efeb019db966596ee8"
+    mjpeg_url: "http://plex.local:8081/mjpeg"
+
+  - platform: mjpeg
+    name: Garage Camera Live
+    still_image_url: "http://plex.local:8765/picture/2/current/?_username=admin&_signature=0aef9442123645170c44412e9a746aa4eaa01a8e"
+    mjpeg_url: "http://plex.local:8082/mjpeg"
+
+  - platform: mjpeg
+    name: Backyard Camera Live
+    still_image_url: "http://plex.local:8765/picture/3/current/?_username=admin&_signature=0a234add636f947768c54b6c8fbf1ad0b96fbdba"
+    mjpeg_url: "http://plex.local:8083/mjpeg"
+
+  - platform: generic
+    name: garage
+    still_image_url: !secret garage_still_image_url
+    stream_source: !secret garage_stream_source
+
+  - platform: generic
+    name: backyard
+    still_image_url: !secret backyard_still_image_url
+    stream_source: !secret backyard_stream_source
+
+  - platform: generic
+    name: backyard2
+    still_image_url: !secret backyard2_still_image_url
+    stream_source: !secret backyard2_stream_source
+
+  - platform: local_file
+    file_path: /config/www/deepstack_object_garage_latest.png
+    name: deepstack_latest_garage
+
+  - platform: local_file
+    file_path: /config/www/deepstack_object_backyard_latest.png
+    name: deepstack_latest_backyard
+
+  - platform: local_file
+    file_path: /config/www/deepstack_object_backyard2_latest.png
+    name: deepstack_latest_backyard2
+
+  - platform: local_file
+    file_path: /config/www/deepstack_object_front_door_latest.png
+    name: deepstack_latest_frontdoor
+
+# Deepstack AI
+image_processing:
+  - platform: deepstack_object
+    ip_address: 192.168.77.123
+    port: 80
+    timeout: 10
+    save_file_folder: /config/www
+    save_file_format: png
+    save_timestamped_file: False
+    always_save_latest_file: True
+    targets:
+      - target: person
+        confidence: 50
+      - target: car
+        confidence: 15
+      - target: vehicle
+        confidence: 60
+      - target: dog
+        confidence: 40
+    source:
+      - entity_id: camera.front_door
+
+  - platform: deepstack_object
+    ip_address: 192.168.77.123
+    port: 80
+    timeout: 10
+    save_file_folder: /config/www
+    save_file_format: png
+    save_timestamped_file: False
+    always_save_latest_file: True
+    targets:
+      - target: person
+        confidence: 50
+      - target: car
+        confidence: 15
+      - target: vehicle
+        confidence: 60
+    source:
+      - entity_id: camera.garage
+
+  - platform: deepstack_object
+    ip_address: 192.168.77.123
+    port: 80
+    timeout: 10
+    save_file_folder: /config/www
+    save_file_format: png
+    save_timestamped_file: False
+    always_save_latest_file: True
+    targets:
+      - target: person
+        confidence: 15
+      - target: bird
+        confidence: 40
+      - target: cat
+        confidence: 40
+      - target: dog
+        confidence: 40
+    source:
+      - entity_id: camera.backyard
+
+  - platform: deepstack_object
+    ip_address: 192.168.77.123
+    port: 80
+    timeout: 10
+    save_file_folder: /config/www
+    save_file_format: png
+    save_timestamped_file: False
+    always_save_latest_file: True
+    targets:
+      - target: person
+        confidence: 15
+      - target: bird
+        confidence: 40
+      - target: cat
+        confidence: 15
+      - target: bird
+        confidence: 40
+      - target: cat
+        confidence: 40
+      - target: dog
+        confidence: 40
+    source:
+      - entity_id: camera.backyard2
+
+input_boolean:
+  backyard_motion_detected:
+    name: Backyard - Motion detected
+    icon: mdi:eye
+
+  backyard2_motion_detected:
+    name: Backyard2 - Motion detected
+    icon: mdi:eye
+
+  garage_motion_detected:
+    name: Garage - Motion detected
+    icon: mdi:eye
+
+binary_sensor:
+  - platform: template
+    sensors:
+      backyard_motion:
+        friendly_name: "Backyard Camera - Movement"
+        device_class: motion
+        value_template: "{{ is_state('input_boolean.backyard_motion_detected', 'on') }}"
+
+      backyard2_motion:
+        friendly_name: "Backyard2 Camera - Movement"
+        device_class: motion
+        value_template: "{{ is_state('input_boolean.backyard2_motion_detected', 'on') }}"
+
+      garage_motion:
+        friendly_name: "Garage Camera - Movement"
+        device_class: motion
+        value_template: "{{ is_state('input_boolean.garage_motion_detected', 'on') }}"
+
+      nest_connection_status:
+        friendly_name: Ring Alarm
+        device_class: connectivity
+        value_template: "{{ is_state_attr('sensor.north_york_base_station_info', 'commStatus', 'ok') }}"
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+sensor: !include sensors.yaml
+scene: !include scenes.yaml

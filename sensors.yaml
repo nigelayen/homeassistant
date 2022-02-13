@@ -1,0 +1,42 @@
+# Host
+- platform: systemmonitor
+  resources:
+    - type: processor_use
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: swap_use_percent
+    - type: last_boot
+
+# Sensors
+- platform: template
+  sensors:
+    weather_humidity:
+      friendly_name: "Outdoor Weather Humidity"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr('weather.home_2', 'humidity') }}"
+    front_door_sensor_battery_level:
+      friendly_name: "Front Door Sensor Battery Level"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr('binary_sensor.front_door', 'battery_level') }}"
+    back_door_sensor_battery_level:
+      friendly_name: "Back Door Sensor Battery Level"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr('binary_sensor.back_door', 'battery_level') }}"
+    motion_sensor_battery_level:
+      friendly_name: "Motion Sensor Battery Level"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr('binary_sensor.hue_motion_sensor_1_motion', 'battery_level') }}"
+    ring_range_extender_battery_level:
+      friendly_name: "Ring Range Extender Battery Level"
+      unit_of_measurement: "%"
+      value_template: "{{ state_attr('sensor.living_room_info_2', 'batteryLevel') }}"
+    ring_range_extender_comm_status:
+      friendly_name: "Ring Range Extender Communication Status"
+      value_template: "{{ state_attr('sensor.living_room_info_2', 'commStatus') }}"
+    living_room_light_level:
+      friendly_name: "Living Room Light Level"
+      value_template: "{{ state_attr('sensor.hue_motion_sensor_1_light_level', 'lightlevel') }}"
+    indoor_temperature:
+      friendly_name: "Indoor Temperature"
+      value_template: "{{ ((float(states('sensor.main_floor_temperature')) + float(states('sensor.hue_motion_sensor_1_temperature'))) / 2) | round(1) }}"
