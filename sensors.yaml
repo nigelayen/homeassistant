@@ -39,4 +39,4 @@
       value_template: "{{ state_attr('sensor.hue_motion_sensor_1_light_level', 'lightlevel') }}"
     indoor_temperature:
       friendly_name: "Indoor Temperature"
-      value_template: "{{ ((float(states('sensor.main_floor_temperature')) + float(states('sensor.hue_motion_sensor_1_temperature'))) / 2) | round(1) }}"
+      value_template: "{{ ((float(states('sensor.main_floor_temperature')) + float(states('sensor.motion_sensor_temperature'))) / 2) | round(1) }}"
