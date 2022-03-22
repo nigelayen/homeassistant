@@ -336,9 +336,11 @@
     - wed
     - thu
     - fri
+    before: 00:00:00
+    after: 00:00:00
   - condition: state
-    entity_id: device_tracker.damngenius_2
     state: home
+    entity_id: device_tracker.iphone_3
   action:
   - scene: scene.basementlights
   mode: single

@@ -54,21 +54,6 @@ nest:
 
 # outdoor cameras (mjpeg and rtsp)
 camera:
-  - platform: mjpeg
-    name: Sidegate Camera Live
-    still_image_url: "http://plex.local:8765/picture/1/current/?_username=admin&_signature=6e23571cb117c2484f18a7efeb019db966596ee8"
-    mjpeg_url: "http://plex.local:8081/mjpeg"
-
-  - platform: mjpeg
-    name: Garage Camera Live
-    still_image_url: "http://plex.local:8765/picture/2/current/?_username=admin&_signature=0aef9442123645170c44412e9a746aa4eaa01a8e"
-    mjpeg_url: "http://plex.local:8082/mjpeg"
-
-  - platform: mjpeg
-    name: Backyard Camera Live
-    still_image_url: "http://plex.local:8765/picture/3/current/?_username=admin&_signature=0a234add636f947768c54b6c8fbf1ad0b96fbdba"
-    mjpeg_url: "http://plex.local:8083/mjpeg"
-
   - platform: generic
     name: garage
     still_image_url: !secret garage_still_image_url
