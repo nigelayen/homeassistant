@@ -1,4 +1,3 @@
-# Configure a default setup of Home Assistant (frontend, api, etc)
 homeassistant:
   allowlist_external_dirs:
     - /config/images
@@ -11,7 +10,7 @@ homeassistant:
 
 recorder:
   purge_keep_days: 5
-  db_url: mysql://homeassistant:C3YKiFhR*hu42!@core-mariadb/homeassistant?charset=utf8mb4
+  db_url: !secret recorder_db_url
   exclude:
     domains:
       - automation
@@ -60,26 +59,26 @@ camera:
     stream_source: !secret garage_stream_source
 
   - platform: generic
-    name: backyard
-    still_image_url: !secret backyard_still_image_url
-    stream_source: !secret backyard_stream_source
+    name: sidegate
+    still_image_url: !secret sidegate_still_image_url
+    stream_source: !secret sidegate_stream_source
 
   - platform: generic
-    name: backyard2
-    still_image_url: !secret backyard2_still_image_url
-    stream_source: !secret backyard2_stream_source
+    name: backdoor
+    still_image_url: !secret backdoor_still_image_url
+    stream_source: !secret backdoor_stream_source
 
   - platform: local_file
     file_path: /config/www/deepstack_object_garage_latest.png
     name: deepstack_latest_garage
 
   - platform: local_file
-    file_path: /config/www/deepstack_object_backyard_latest.png
-    name: deepstack_latest_backyard
+    file_path: /config/www/deepstack_object_sidegate_latest.png
+    name: deepstack_latest_sidegate
 
   - platform: local_file
-    file_path: /config/www/deepstack_object_backyard2_latest.png
-    name: deepstack_latest_backyard2
+    file_path: /config/www/deepstack_object_backdoor_latest.png
+    name: deepstack_latest_backdoor
 
   - platform: local_file
     file_path: /config/www/deepstack_object_front_door_latest.png
@@ -143,7 +142,7 @@ image_processing:
       - target: dog
         confidence: 40
     source:
-      - entity_id: camera.backyard
+      - entity_id: camera.sidegate
 
   - platform: deepstack_object
     ip_address: 192.168.77.123
@@ -167,15 +166,15 @@ image_processing:
       - target: dog
         confidence: 40
     source:
-      - entity_id: camera.backyard2
+      - entity_id: camera.backdoor
 
 input_boolean:
-  backyard_motion_detected:
-    name: Backyard - Motion detected
+  sidegate_motion_detected:
+    name: Sidegate - Motion detected
     icon: mdi:eye
 
-  backyard2_motion_detected:
-    name: Backyard2 - Motion detected
+  backdoor_motion_detected:
+    name: Backdoor - Motion detected
     icon: mdi:eye
 
   garage_motion_detected:
@@ -185,15 +184,15 @@ input_boolean:
 binary_sensor:
   - platform: template
     sensors:
-      backyard_motion:
-        friendly_name: "Backyard Camera - Movement"
+      sidegate_motion:
+        friendly_name: "Sidegate Camera - Movement"
         device_class: motion
-        value_template: "{{ is_state('input_boolean.backyard_motion_detected', 'on') }}"
+        value_template: "{{ is_state('input_boolean.sidegate_motion_detected', 'on') }}"
 
-      backyard2_motion:
-        friendly_name: "Backyard2 Camera - Movement"
+      backdoor_motion:
+        friendly_name: "Backdoor Camera - Movement"
         device_class: motion
-        value_template: "{{ is_state('input_boolean.backyard2_motion_detected', 'on') }}"
+        value_template: "{{ is_state('input_boolean.backdoor_motion_detected', 'on') }}"
 
       garage_motion:
         friendly_name: "Garage Camera - Movement"
