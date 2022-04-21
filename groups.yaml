@@ -20,3 +20,10 @@ living_room_lights:
     - light.hue_color_lamp_2
     - light.hue_color_lamp_3
     - light.hue_white_lamp_1
+
+# Switches
+switches:
+  name: Switches
+  entities:
+    - switch.switch1_2
+    - switch.switch2_2
