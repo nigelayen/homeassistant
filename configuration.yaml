@@ -53,21 +53,6 @@ nest:
 
 # outdoor cameras (mjpeg and rtsp)
 camera:
-  - platform: generic
-    name: garage
-    still_image_url: !secret garage_still_image_url
-    stream_source: !secret garage_stream_source
-
-  - platform: generic
-    name: sidegate
-    still_image_url: !secret sidegate_still_image_url
-    stream_source: !secret sidegate_stream_source
-
-  - platform: generic
-    name: backdoor
-    still_image_url: !secret backdoor_still_image_url
-    stream_source: !secret backdoor_stream_source
-
   - platform: local_file
     file_path: /config/www/deepstack_object_garage_latest.png
     name: deepstack_latest_garage

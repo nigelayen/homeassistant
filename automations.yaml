@@ -1,349 +1,348 @@
-- id: "1583614877368"
-  alias: Garage Light On
-  description: Turn lights on when garage door open
-  trigger:
-    - entity_id: cover.garage
-      platform: state
-      to: open
-  condition:
-    - condition: or
-      conditions:
-        - condition: sun
-          before: sunrise
-        - condition: sun
-          after: sunset
-          after_offset: -01:00:00
-  action:
-    - service: light.turn_on
-      data:
-        brightness: 255
-      target:
-        entity_id: light.garage
-  mode: restart
-- id: "1583614954065"
-  alias: Garage Light Off
-  description: Turn lights off when Garage door closed
-  trigger:
-    - entity_id: cover.garage
-      platform: state
-      to: closed
-  condition:
-    - condition: state
-      entity_id: light.garage
-      state: "on"
-  action:
-    - service: light.turn_off
-      data:
-        transition: 10
-      target:
-        entity_id: light.garage
-  mode: single
-- id: "1587261294860"
+- id: '1587261294860'
   alias: Close Garage Door
   description: Close garage door when alarm set to home or away
   trigger:
-    - platform: state
-      entity_id: alarm_control_panel.north_york_alarm
-      to: armed_home
+  - platform: state
+    entity_id: alarm_control_panel.north_york_alarm
+    to: armed_home
   condition:
-    - condition: state
-      entity_id: cover.garage
-      state: open
+  - condition: state
+    entity_id: cover.garage
+    state: open
   action:
-    - data: {}
-      service: cover.close_cover
-      target:
-        entity_id: cover.garage
+  - data: {}
+    service: cover.close_cover
+    target:
+      entity_id: cover.garage
   mode: single
-- id: "1593321973249"
+- id: '1593321973249'
   alias: Outside Lights On
-  description: ""
+  description: ''
   trigger:
-    - platform: sun
-      event: sunset
+  - platform: sun
+    event: sunset
   condition: []
   action:
-    - service: light.turn_on
-      data: {}
-      target:
-        entity_id:
-          - light.backyard_2
-          - light.frontyard_2
-    - type: turn_on
-      device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
-      entity_id: switch.plug1
-      domain: switch
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id:
+      - light.backyard_2
+      - light.frontyard_2
+  - type: turn_on
+    device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
+    entity_id: switch.plug1
+    domain: switch
   mode: single
-- id: "1596602195449"
+- id: '1596602195449'
   alias: Goodnight
   description: Turn outside lights off when alarm is set to home
   trigger:
-    - platform: state
-      entity_id: alarm_control_panel.north_york_alarm
-      to: armed_home
-    - platform: state
-      entity_id: alarm_control_panel.north_york_alarm
-      to: armed_away
+  - platform: state
+    entity_id: alarm_control_panel.north_york_alarm
+    to: armed_home
+  - platform: state
+    entity_id: alarm_control_panel.north_york_alarm
+    to: armed_away
   condition: []
   action:
-    - delay: 00:15:00
-    - service: light.turn_off
-      data: {}
-      target:
-        entity_id:
-          - light.backyard_2
-          - light.frontyard_2
-    - scene: scene.basement_off
-    - service: switch.turn_off
-      data: {}
-      target:
-        entity_id:
-          - switch.switch1_2
-          - switch.switch2_2
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.backyard_2
+      - light.frontyard_2
+  - scene: scene.basement_off
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.switch1_2
+      - switch.switch2_2
   mode: single
-- id: "1611716087928"
+- id: '1611716087928'
   alias: Bar Lights On
-  description: ""
+  description: ''
   trigger:
-    - platform: sun
-      event: sunset
+  - platform: sun
+    event: sunset
   condition: []
   action:
-    - service: switch.turn_on
-      data: {}
-      target:
-        entity_id:
-          - switch.switch1_2
-          - switch.living_room_lamp
-          - switch.switch2_2
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.switch1_2
+      - switch.living_room_lamp
+      - switch.switch2_2
   mode: single
-- id: "1616129428006"
+- id: '1616129428006'
   alias: FrontDoorAI
-  description: ""
+  description: ''
   trigger:
-    - platform: state
-      entity_id: binary_sensor.front_door_motion_2
+  - platform: state
+    entity_id: binary_sensor.front_door_motion_2
   condition: []
   action:
-    - service: image_processing.scan
-      target:
-        entity_id: image_processing.deepstack_object_front_door
+  - service: image_processing.scan
+    target:
+      entity_id: image_processing.deepstack_object_front_door
   mode: single
   max: 10
-- id: "1616170339677"
+- id: '1616170339677'
   alias: GarageAI
-  description: ""
+  description: ''
   trigger:
-    - platform: state
-      entity_id: binary_sensor.garage_motion
+  - platform: state
+    entity_id: binary_sensor.garage_motion
   condition: []
   action:
-    - service: image_processing.scan
-      target:
-        entity_id: image_processing.deepstack_object_garage
+  - service: image_processing.scan
+    target:
+      entity_id: image_processing.deepstack_object_garage
   mode: single
   max: 10
-- id: "1616212788722"
+- id: '1616212788722'
   alias: Motioneye - Sidegate - Motion started
-  description: ""
+  description: ''
   trigger:
-    - platform: webhook
-      webhook_id: motioneye-backyard-started
+  - platform: webhook
+    webhook_id: motioneye-backyard-started
   condition: []
   action:
-    - service: input_boolean.turn_on
-      data: {}
-      target:
-        entity_id: input_boolean.sidegate_motion_detected
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.sidegate_motion_detected
   mode: single
-- id: "1616212897306"
+- id: '1616212897306'
   alias: Motioneye - Sidegate - Motion ended
-  description: ""
+  description: ''
   trigger:
-    - platform: webhook
-      webhook_id: motioneye-backyard-ended
+  - platform: webhook
+    webhook_id: motioneye-backyard-ended
   condition: []
   action:
-    - service: input_boolean.turn_off
-      data: {}
-      target:
-        entity_id: input_boolean.sidegate_motion_detected
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.sidegate_motion_detected
   mode: queued
   max: 10
-- id: "1616214454392"
+- id: '1616214454392'
   alias: SidegateAI
-  description: ""
+  description: ''
   trigger:
-    - platform: state
-      entity_id: binary_sensor.sidegate_motion
+  - platform: state
+    entity_id: binary_sensor.sidegate_motion
   condition: []
   action:
-    - service: image_processing.scan
-      data: {}
-      target:
-        entity_id: image_processing.deepstack_object_sidegate
+  - service: image_processing.scan
+    data: {}
+    target:
+      entity_id: image_processing.deepstack_object_sidegate
   mode: queued
   max: 10
-- id: "1617115271505"
+- id: '1617115271505'
   alias: Motioneye - Garage - Motion started
-  description: ""
+  description: ''
   trigger:
-    - platform: webhook
-      webhook_id: motioneye-garage-started
+  - platform: webhook
+    webhook_id: motioneye-garage-started
   condition: []
   action:
-    - service: input_boolean.turn_on
-      target:
-        entity_id: input_boolean.garage_motion_detected
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.garage_motion_detected
   mode: single
-- id: "1617115348817"
+- id: '1617115348817'
   alias: Motioneye - Garage - Motion ended
-  description: ""
+  description: ''
   trigger:
-    - platform: webhook
-      webhook_id: motioneye-garage-ended
+  - platform: webhook
+    webhook_id: motioneye-garage-ended
   condition: []
   action:
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.garage_motion_detected
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.garage_motion_detected
   mode: single
-- id: "1624595045764"
-  alias: Bar Lights Off
-  description: ""
-  trigger:
-    - platform: time
-      at: "23:30:00"
-  condition: []
-  action:
-    - service: switch.turn_off
-      target:
-        entity_id:
-          - switch.switch1_2
-          - switch.living_room_lamp
-          - switch.switch2_2
-  mode: single
-- id: "1625357005839"
+- id: '1625357005839'
   alias: Turn Outside Lights Off If Alarm Away
-  description: ""
+  description: ''
   trigger:
-    - platform: state
-      entity_id: alarm_control_panel.north_york_alarm
-      to: armed_away
+  - platform: state
+    entity_id: alarm_control_panel.north_york_alarm
+    to: armed_away
   condition:
-    - condition: state
-      entity_id: group.outdoor_lights
-      state: "on"
+  - condition: state
+    entity_id: group.outdoor_lights
+    state: 'on'
   action:
-    - service: light.turn_off
-      target:
-        entity_id:
-          - light.frontyard
-          - light.backyard
-    - type: turn_off
-      device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
-      entity_id: switch.plug1
-      domain: switch
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.frontyard
+      - light.backyard
+  - type: turn_off
+    device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
+    entity_id: switch.plug1
+    domain: switch
   mode: single
-- id: "1627317239944"
+- id: '1627317239944'
   alias: HVAC to ECO when doors open
-  description:
-    Set the Nest thermostat to 'Eco' mode when either the front door or
+  description: Set the Nest thermostat to 'Eco' mode when either the front door or
     back door is opened for more than 5 minutes.
   trigger:
-    - platform: state
-      entity_id: binary_sensor.front_door
-      to: "on"
-      for: 00:10:00
-    - platform: state
-      entity_id: binary_sensor.back_door
-      to: "on"
-      for:
-        hours: 0
-        minutes: 10
-        seconds: 0
-        milliseconds: 0
+  - platform: state
+    entity_id: binary_sensor.front_door
+    to: 'on'
+    for: 00:10:00
+  - platform: state
+    entity_id: binary_sensor.back_door
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
   condition: []
   action:
-    - service: climate.set_preset_mode
-      data:
-        preset_mode: eco
-      target:
-        entity_id: climate.main_floor
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: eco
+    target:
+      entity_id: climate.main_floor
   mode: single
-- id: "1629773116634"
+- id: '1629773116634'
   alias: BackdoorAI
-  description: ""
+  description: ''
   trigger:
-    - platform: state
-      entity_id: binary_sensor.backdoor_motion
+  - platform: state
+    entity_id: binary_sensor.backdoor_motion
   condition: []
   action:
-    - service: image_processing.scan
-      target:
-        entity_id: image_processing.deepstack_object_backdoor
-      data: {}
+  - service: image_processing.scan
+    target:
+      entity_id: image_processing.deepstack_object_backdoor
+    data: {}
   mode: queued
   max: 10
-- id: "1629773270589"
+- id: '1629773270589'
   alias: Motioneye - Backdoor - Motion started
-  description: ""
+  description: ''
   trigger:
-    - platform: webhook
-      webhook_id: motioneye-backyard2-started
+  - platform: webhook
+    webhook_id: motioneye-backyard2-started
   condition: []
   action:
-    - service: input_boolean.turn_on
-      data: {}
-      target:
-        entity_id: input_boolean.backdoor_motion_detected
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.backdoor_motion_detected
   mode: single
-- id: "1629773461364"
+- id: '1629773461364'
   alias: Motioneye - Backdoor - Motion ended
-  description: ""
+  description: ''
   trigger:
-    - platform: webhook
-      webhook_id: motioneye-backyard2-ended
+  - platform: webhook
+    webhook_id: motioneye-backyard2-ended
   condition: []
   action:
-    - service: input_boolean.turn_off
-      data: {}
-      target:
-        entity_id: input_boolean.backdoor_motion_detected
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.backdoor_motion_detected
   mode: queued
   max: 10
-- id: "1635131985239"
+- id: '1635131985239'
   alias: HA_Backup_To_GitHub
   description: push HA configuration to GitHub repo
   trigger:
-    - platform: time
-      at: "23:23:00"
+  - platform: time
+    at: '23:23:00'
   condition: []
   action:
-    - service: hassio.addon_stdin
-      data:
-        addon: a0d7b954_ssh
-        input: /config/ha_gitpush.sh
+  - service: hassio.addon_stdin
+    data:
+      addon: a0d7b954_ssh
+      input: /config/ha_gitpush.sh
   mode: single
-- id: "1643859086086"
+- id: '1643859086086'
   alias: Nigel_Work_Start
   description: Turn basement lights on if Nigel at home during weekday.
   trigger:
-    - platform: time
-      at: 08:45:00
+  - platform: time
+    at: 08:45:00
   condition:
-    - condition: time
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-      before: 00:00:00
-      after: 00:00:00
-    - condition: state
-      state: home
-      entity_id: device_tracker.iphone_3
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    before: '17:00:00'
+    after: 08:00:00
+  - condition: state
+    state: home
+    entity_id: device_tracker.iphone_3
   action:
-    - scene: scene.basementlights
+  - scene: scene.basementlights
+  - service: hue.activate_scene
+    data: {}
+    target:
+      area_id: office
+  mode: single
+- id: '1652014741041'
+  alias: SetCondoModeToEco
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: weather.home_2
+    attribute: temperature
+    above: '10'
+  condition: []
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: eco
+    target:
+      entity_id: climate.condo_rental
+  mode: single
+- id: '1652113748234'
+  alias: SetHomeModeToEco
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: weather.home_2
+    attribute: temperature
+    above: '10'
+  condition: []
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: eco
+    target:
+      entity_id: climate.main_floor
+  mode: single
+- id: '1652139604169'
+  alias: Nigel_Work_End
+  description: ''
+  trigger:
+  - platform: time
+    at: '17:00:00'
+    enabled: true
+  condition: []
+  action:
+  - service: light.turn_off
+    data:
+      transition: 300
+    target:
+      area_id: office
   mode: single
