@@ -44,13 +44,6 @@ hassio:
 # Stream
 stream:
 
-# Nest
-nest:
-  client_id: !secret client_id
-  client_secret: !secret client_secret
-  project_id: !secret project_id
-  subscriber_id: !secret subscriber_id
-
 # outdoor cameras (mjpeg and rtsp)
 camera:
   - platform: local_file
@@ -139,10 +132,6 @@ image_processing:
     always_save_latest_file: True
     targets:
       - target: person
-        confidence: 15
-      - target: bird
-        confidence: 40
-      - target: cat
         confidence: 15
       - target: bird
         confidence: 40

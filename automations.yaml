@@ -105,7 +105,8 @@
   - service: image_processing.scan
     target:
       entity_id: image_processing.deepstack_object_garage
-  mode: single
+    data: {}
+  mode: parallel
   max: 10
 - id: '1616212788722'
   alias: Motioneye - Sidegate - Motion started
@@ -210,12 +211,11 @@
       hours: 0
       minutes: 10
       seconds: 0
-      milliseconds: 0
   condition: []
   action:
   - service: climate.set_preset_mode
     data:
-      preset_mode: eco
+      preset_mode: 'off'
     target:
       entity_id: climate.main_floor
   mode: single
