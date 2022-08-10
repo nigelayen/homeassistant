@@ -37,3 +37,37 @@
     indoor_temperature:
       friendly_name: "Indoor Temperature"
       value_template: "{{ ((int(state_attr('climate.main_floor', 'current_temperature')) + int(states('sensor.motion_sensor_temperature')))/2)|round(0) }}"
+    hydro_ontario_cost:
+      unit_of_measurement: "CAD/kWh"
+      value_template: >-
+        {## https://www.torontohydro.com/for-home/rates ##}
+        {% set prices = {
+          "off_peak": 0.082,
+          "mid_peak": 0.113,
+          "on_peak": 0.17,
+          "delivery": 0.07,
+        } %}
+
+        {% if is_state('binary_sensor.workday_sensor', 'off') %}
+          {{ prices.off_peak + prices.delivery }}
+        {% else %}
+        {% if now().month <= 4 or now().month >= 11 %}
+        {% if now().hour >= 7 and now().hour < 11 %}
+          {{ prices.on_peak + prices.delivery }}
+        {% elif now().hour >= 11 and now().hour < 17 %}
+          {{ prices.mid_peak + prices.delivery }}
+        {% elif now().hour >= 17 and now().hour < 19 %}
+          {{ prices.on_peak + prices.delivery }}
+        {% else %}
+          {{ prices.off_peak + prices.delivery }}
+        {% endif %}
+        {% else %}
+        {% if now().hour >= 7 and now().hour < 11 %} Mid-Peak {% elif now().hour >= 11 and now().hour < 17 %}
+          {{ prices.on_peak + prices.delivery }}
+        {% elif now().hour >= 17 and now().hour < 19 %}
+          {{ prices.mid_peak + prices.delivery }}
+        {% else %}
+          {{ prices.off_peak + prices.delivery }}
+        {% endif %}
+        {% endif %}
+        {% endif %}

@@ -26,6 +26,38 @@ recorder:
 frontend:
   themes: !include_dir_merge_named themes
 
+# Shelly em
+shelly:
+  sensors:
+    - all #show all sensors
+  attributes:
+    - all #show all attributes
+  discover_by_ip:
+    - "192.168.7.72"
+
+template:
+  - sensor:
+      - name: ac_tot_grid_consumption
+        unique_id: ac_consumption
+        attributes:
+          friendly_name: "AirCon Energy"
+        state: "{{ states('sensor.shelly_shem_c45bbe6b6dd9_1_total_consumption') }}"
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        availability: "{{ states('sensor.shelly_shem_c45bbe6b6dd9_1_total_consumption') > 0 }}"
+
+  - sensor:
+      - name: furnace_tot_grid_consumption
+        unique_id: furnace_consumption
+        attributes:
+          friendly_name: "Furnace Energy"
+        state: "{{ states('sensor.shelly_shem_c45bbe6b6dd9_2_total_consumption') }}"
+        unit_of_measurement: kWh
+        state_class: total_increasing
+        device_class: energy
+        availability: "{{ states('sensor.shelly_shem_c45bbe6b6dd9_2_total_consumption') > 0 }}"
+
 http:
   server_port: 8123
   ssl_certificate: /ssl/fullchain.pem
@@ -177,6 +209,12 @@ binary_sensor:
         friendly_name: Ring Alarm
         device_class: connectivity
         value_template: "{{ is_state_attr('sensor.north_york_base_station_info', 'commStatus', 'ok') }}"
+
+  # Energy Management
+  - platform: workday
+    country: CA
+    province: "ON"
+
 # Text to speech
 tts:
   - platform: google_translate
