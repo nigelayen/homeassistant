@@ -78,7 +78,6 @@
     target:
       entity_id:
       - switch.switch1_2
-      - switch.living_room_lamp
       - switch.switch2_2
   mode: single
 - id: '1616129428006'
@@ -182,7 +181,10 @@
     to: armed_away
   condition:
   - condition: state
-    entity_id: group.outdoor_lights
+    state: 'on'
+    entity_id: light.frontyard_2
+  - condition: state
+    entity_id: light.backyard_2
     state: 'on'
   action:
   - service: light.turn_off
@@ -190,13 +192,14 @@
       entity_id:
       - light.frontyard
       - light.backyard
+    data: {}
   - type: turn_off
     device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
     entity_id: switch.plug1
     domain: switch
   mode: single
 - id: '1627317239944'
-  alias: HVAC to ECO when doors open
+  alias: Turn HVAC off when doors remain open
   description: Set the Nest thermostat to 'Eco' mode when either the front door or
     back door is opened for more than 5 minutes.
   trigger:
@@ -213,9 +216,9 @@
       seconds: 0
   condition: []
   action:
-  - service: climate.set_preset_mode
+  - service: climate.set_hvac_mode
     data:
-      preset_mode: 'off'
+      hvac_mode: 'off'
     target:
       entity_id: climate.main_floor
   mode: single
@@ -299,38 +302,6 @@
     target:
       area_id: office
   mode: single
-- id: '1652014741041'
-  alias: SetCondoModeToEco
-  description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: weather.home_2
-    attribute: temperature
-    above: '10'
-  condition: []
-  action:
-  - service: climate.set_preset_mode
-    data:
-      preset_mode: eco
-    target:
-      entity_id: climate.condo_rental
-  mode: single
-- id: '1652113748234'
-  alias: SetHomeModeToEco
-  description: ''
-  trigger:
-  - platform: numeric_state
-    entity_id: weather.home_2
-    attribute: temperature
-    above: '10'
-  condition: []
-  action:
-  - service: climate.set_preset_mode
-    data:
-      preset_mode: eco
-    target:
-      entity_id: climate.main_floor
-  mode: single
 - id: '1652139604169'
   alias: Nigel_Work_End
   description: ''
@@ -345,4 +316,25 @@
       transition: 300
     target:
       area_id: office
+  mode: single
+- id: '1660872399666'
+  alias: Turn HVAC on at night when doors closed
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition:
+  - condition: state
+    entity_id: camera.front_door
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.back_door
+    state: 'off'
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: cool
+    target:
+      entity_id: climate.main_floor
   mode: single
