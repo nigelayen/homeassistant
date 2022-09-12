@@ -98,13 +98,14 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.garage_motion
+    entity_id:
+    - binary_sensor.garage_motion
   condition: []
   action:
   - service: image_processing.scan
+    data: {}
     target:
       entity_id: image_processing.deepstack_object_garage
-    data: {}
   mode: parallel
   max: 10
 - id: '1616212788722'
@@ -294,7 +295,7 @@
     after: 08:00:00
   - condition: state
     state: home
-    entity_id: device_tracker.iphone_3
+    entity_id: device_tracker.damngenius_2
   action:
   - scene: scene.basementlights
   - service: hue.activate_scene
