@@ -79,7 +79,7 @@ image_processing:
     timeout: 10
     save_file_folder: /config/www
     save_file_format: png
-    save_timestamped_file: True
+    save_timestamped_file: False
     always_save_latest_file: True
     targets:
       - target: person

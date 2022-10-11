@@ -64,6 +64,7 @@
       entity_id:
       - switch.switch1_2
       - switch.switch2_2
+      - switch.plug1
   mode: single
 - id: '1611716087928'
   alias: Bar Lights On
