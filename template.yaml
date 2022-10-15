@@ -1,6 +1,0 @@
-- sensor:
-    - name: Outdoor Humidity
-      state: "{{ state_attr('weather.home_2', 'humidity') }}"
-      state_class: measurement
-      device_class: humidity
-      unit_of_measurement: "%"
