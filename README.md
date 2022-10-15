@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # 🔩 Home Assistant - Setup & Configuration
 
 This repo documents the build and maintenance details for my [Home Assistant](https://www.home-assistant.io) environment.
@@ -15,3 +16,6 @@ An embedded, minimalistic operating system designed to run the Home Assistant ec
 =======
 
 >>>>>>> 7b18abf (Create README.md)
+=======
+This repo contains the yaml scripts for my home automation project built with Home Assistant.
+>>>>>>> 83b3734 (Update README.md)
