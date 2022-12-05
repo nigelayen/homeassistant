@@ -41,9 +41,6 @@
   - platform: state
     entity_id: alarm_control_panel.north_york_alarm
     to: armed_home
-  - platform: state
-    entity_id: alarm_control_panel.north_york_alarm
-    to: armed_away
   condition: []
   action:
   - delay:
@@ -65,6 +62,7 @@
       - switch.switch1_2
       - switch.switch2_2
       - switch.plug1
+      - switch.living_room_lamp
   mode: single
 - id: '1611716087928'
   alias: Bar Lights On
@@ -80,6 +78,7 @@
       entity_id:
       - switch.switch1_2
       - switch.switch2_2
+      - switch.living_room_lamp
   mode: single
 - id: '1616129428006'
   alias: FrontDoorAI
@@ -178,16 +177,23 @@
   alias: Turn Outside Lights Off If Alarm Away
   description: ''
   trigger:
-  - platform: state
+  - platform: device
+    device_id: 9a05613f3a33aeeb14ee15755b521bb9
+    domain: alarm_control_panel
     entity_id: alarm_control_panel.north_york_alarm
-    to: armed_away
+    type: armed_away
   condition:
-  - condition: state
-    state: 'on'
-    entity_id: light.frontyard_2
-  - condition: state
-    entity_id: light.backyard_2
-    state: 'on'
+  - condition: time
+    before: 00:00:00
+    after: '22:30:00'
+    weekday:
+    - sun
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
   action:
   - service: light.turn_off
     target:
@@ -195,10 +201,14 @@
       - light.frontyard
       - light.backyard
     data: {}
-  - type: turn_off
-    device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
-    entity_id: switch.plug1
-    domain: switch
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.switch1_2
+      - switch.switch2_2
+      - switch.plug1
+      - switch.living_room_lamp
   mode: single
 - id: '1627317239944'
   alias: Turn HVAC off when doors remain open

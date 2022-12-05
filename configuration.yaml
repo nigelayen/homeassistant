@@ -3,10 +3,6 @@ homeassistant:
     - /config/images
   media_dirs:
     local: /config/images
-  auth_providers:
-    - type: homeassistant
-  internal_url: !secret internal_url
-  external_url: !secret external_url
 
 recorder:
   purge_keep_days: 5
@@ -36,10 +32,11 @@ shelly:
     - "192.168.7.72"
 
 http:
-  server_port: 8123
-  ssl_certificate: /ssl/fullchain.pem
-  ssl_key: /ssl/privkey.pem
+  ip_ban_enabled: true
   login_attempts_threshold: 3
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
 
 # System Health
 system_health:
