@@ -329,24 +329,3 @@
     target:
       area_id: office
   mode: single
-- id: '1660872399666'
-  alias: Turn HVAC on at night when doors closed
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunset
-    offset: 0
-  condition:
-  - condition: state
-    entity_id: camera.front_door
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.back_door
-    state: 'off'
-  action:
-  - service: climate.set_hvac_mode
-    data:
-      hvac_mode: cool
-    target:
-      entity_id: climate.main_floor
-  mode: single

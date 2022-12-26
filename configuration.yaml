@@ -4,6 +4,13 @@ homeassistant:
   media_dirs:
     local: /config/images
 
+# Waste collection
+waste_collection_schedule:
+  sources:
+    - name: toronto_ca
+      args:
+        street_address: !secret my_address
+
 recorder:
   purge_keep_days: 5
   db_url: !secret recorder_db_url
@@ -21,15 +28,6 @@ recorder:
 
 frontend:
   themes: !include_dir_merge_named themes
-
-# Shelly em
-shelly:
-  sensors:
-    - all #show all sensors
-  attributes:
-    - all #show all attributes
-  discover_by_ip:
-    - "192.168.7.72"
 
 http:
   ip_ban_enabled: true
@@ -71,7 +69,7 @@ camera:
 # Deepstack AI
 image_processing:
   - platform: deepstack_object
-    ip_address: 192.168.77.124
+    ip_address: !secret deepstack_host
     port: 5000
     timeout: 10
     save_file_folder: /config/www
@@ -91,7 +89,7 @@ image_processing:
       - entity_id: camera.front_door
 
   - platform: deepstack_object
-    ip_address: 192.168.77.124
+    ip_address: !secret deepstack_host
     port: 5000
     timeout: 10
     save_file_folder: /config/www
@@ -109,7 +107,7 @@ image_processing:
       - entity_id: camera.garage
 
   - platform: deepstack_object
-    ip_address: 192.168.77.124
+    ip_address: !secret deepstack_host
     port: 5000
     timeout: 10
     save_file_folder: /config/www
@@ -129,7 +127,7 @@ image_processing:
       - entity_id: camera.sidegate
 
   - platform: deepstack_object
-    ip_address: 192.168.77.124
+    ip_address: !secret deepstack_host
     port: 5000
     timeout: 10
     save_file_folder: /config/www
@@ -161,6 +159,15 @@ input_boolean:
     name: Garage - Motion detected
     icon: mdi:eye
 
+template:
+  - sensor:
+      - name: "Outdoor Humidity"
+        unit_of_measurement: "%"
+        device_class: humidity
+        state_class: measurement
+        state: >-
+          {{ state_attr('weather.home','humidity') }}
+
 binary_sensor:
   - platform: template
     sensors:
@@ -189,13 +196,10 @@ binary_sensor:
     country: CA
     province: "ON"
 
-# Text to speech
+    # Text to speech
 tts:
   - platform: google_translate
 
-group: !include groups.yaml
 automation: !include automations.yaml
-script: !include scripts.yaml
 sensor: !include sensors.yaml
 scene: !include scenes.yaml
-template: !include template.yaml

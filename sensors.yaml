@@ -9,6 +9,26 @@
     - type: last_boot
 
 # Sensors
+
+# next collection
+- platform: waste_collection_schedule
+  name: next_collection
+# next Green Bin collection
+- platform: waste_collection_schedule
+  name: next_greenbin_collection
+  types:
+    - Organics
+# next Blue Bin collection
+- platform: waste_collection_schedule
+  name: next_bluebin_collection
+  types:
+    - Recycling
+# next garbage collection
+- platform: waste_collection_schedule
+  name: next_garbage_collection
+  types:
+    - Garbage
+
 - platform: template
   sensors:
     front_door_sensor_battery_level:
