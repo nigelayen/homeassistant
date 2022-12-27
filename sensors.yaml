@@ -9,10 +9,13 @@
     - type: last_boot
 
 # Sensors
-
 # next collection
 - platform: waste_collection_schedule
   name: next_collection
+  value_template: '{{value.types|join(" + ")}}'
+- platform: waste_collection_schedule
+  name: MyButtonCardSensor
+  value_template: '{{value.types|join(" + ")}}|{{value.daysTo}}|{{value.date.strftime("%d.%m.%Y")}}|{{value.date.strftime("%a")}}'
 # next Green Bin collection
 - platform: waste_collection_schedule
   name: next_greenbin_collection
@@ -26,6 +29,7 @@
 # next garbage collection
 - platform: waste_collection_schedule
   name: next_garbage_collection
+  value_template: "{% if value.daysTo == 0 %}Today{% elif value.daysTo == 1 %}Tomorrow{% else %}in {{value.daysTo}} days{% endif %}"
   types:
     - Garbage
 
