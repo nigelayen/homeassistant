@@ -54,7 +54,6 @@
       entity_id:
       - light.backyard_2
       - light.frontyard_2
-  - scene: scene.basement_off
   - service: switch.turn_off
     data: {}
     target:
@@ -309,10 +308,6 @@
     entity_id: device_tracker.damngenius_2
   action:
   - scene: scene.basementlights
-  - service: hue.activate_scene
-    data: {}
-    target:
-      area_id: office
   mode: single
 - id: '1652139604169'
   alias: Nigel_Work_End
