@@ -324,3 +324,31 @@
     target:
       area_id: office
   mode: single
+- id: '1673200577304'
+  alias: Basement Motion
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.motion_sensor_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.basementlights
+    state: 'off'
+  action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.basementlights
+    metadata: {}
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - service: scene.turn_on
+    target:
+      entity_id: scene.basement_off
+    metadata: {}
+  mode: single
