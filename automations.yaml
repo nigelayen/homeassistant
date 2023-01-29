@@ -27,8 +27,7 @@
     data: {}
     target:
       entity_id:
-      - light.backyard_2
-      - light.frontyard_2
+      - light.outdoorlights
   - type: turn_on
     device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
     entity_id: switch.plug1
@@ -172,67 +171,6 @@
     target:
       entity_id: input_boolean.garage_motion_detected
   mode: single
-- id: '1625357005839'
-  alias: Turn Outside Lights Off If Alarm Away
-  description: ''
-  trigger:
-  - platform: device
-    device_id: 9a05613f3a33aeeb14ee15755b521bb9
-    domain: alarm_control_panel
-    entity_id: alarm_control_panel.north_york_alarm
-    type: armed_away
-  condition:
-  - condition: time
-    before: 00:00:00
-    after: '22:30:00'
-    weekday:
-    - sun
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-    - sat
-  action:
-  - service: light.turn_off
-    target:
-      entity_id:
-      - light.frontyard
-      - light.backyard
-    data: {}
-  - service: switch.turn_off
-    data: {}
-    target:
-      entity_id:
-      - switch.switch1_2
-      - switch.switch2_2
-      - switch.plug1
-      - switch.living_room_lamp
-  mode: single
-- id: '1627317239944'
-  alias: Turn HVAC off when doors remain open
-  description: Set the Nest thermostat to 'Eco' mode when either the front door or
-    back door is opened for more than 5 minutes.
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.front_door
-    to: 'on'
-    for: 00:10:00
-  - platform: state
-    entity_id: binary_sensor.back_door
-    to: 'on'
-    for:
-      hours: 0
-      minutes: 10
-      seconds: 0
-  condition: []
-  action:
-  - service: climate.set_hvac_mode
-    data:
-      hvac_mode: 'off'
-    target:
-      entity_id: climate.main_floor
-  mode: single
 - id: '1629773116634'
   alias: BackdoorAI
   description: ''
@@ -309,21 +247,6 @@
   action:
   - scene: scene.basementlights
   mode: single
-- id: '1652139604169'
-  alias: Nigel_Work_End
-  description: ''
-  trigger:
-  - platform: time
-    at: '17:00:00'
-    enabled: true
-  condition: []
-  action:
-  - service: light.turn_off
-    data:
-      transition: 300
-    target:
-      area_id: office
-  mode: single
 - id: '1673200577304'
   alias: Basement Motion
   description: ''
@@ -351,4 +274,20 @@
     target:
       entity_id: scene.basement_off
     metadata: {}
+  mode: single
+- id: '1675031627562'
+  alias: Outdoor Lights Vacation Schedule
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition:
+  - condition: state
+    entity_id: light.outdoorlights
+    state: 'on'
+  action:
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.outdoorlights
   mode: single
