@@ -289,5 +289,8 @@
   - service: light.turn_off
     data: {}
     target:
-      entity_id: light.outdoorlights
+      entity_id:
+      - light.outdoorlights
+      - light.switch1
+      - light.switch2
   mode: single
