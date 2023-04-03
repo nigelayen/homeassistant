@@ -50,6 +50,7 @@
 
 - platform: template
   sensors:
+    # Round up forecast temperature
     front_door_sensor_battery_level:
       friendly_name: "Front Door Sensor Battery Level"
       unit_of_measurement: "%"
@@ -77,9 +78,9 @@
       value_template: >-
         {## https://www.torontohydro.com/for-home/rates ##}
         {% set prices = {
-          "off_peak": 0.082,
-          "mid_peak": 0.113,
-          "on_peak": 0.17,
+          "off_peak": 0.074,
+          "mid_peak": 0.102,
+          "on_peak": 0.151,
           "delivery": 0.07,
         } %}
 

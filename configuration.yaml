@@ -74,7 +74,7 @@ image_processing:
     timeout: 10
     save_file_folder: /config/www
     save_file_format: png
-    save_timestamped_file: False
+    save_timestamped_file: True
     always_save_latest_file: True
     targets:
       - target: person
@@ -203,3 +203,4 @@ tts:
 automation: !include automations.yaml
 sensor: !include sensors.yaml
 scene: !include scenes.yaml
+weather: !include weather.yaml
