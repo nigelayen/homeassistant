@@ -1,20 +1,3 @@
-- id: '1587261294860'
-  alias: Close Garage Door
-  description: Close garage door when alarm set to home or away
-  trigger:
-  - platform: state
-    entity_id: alarm_control_panel.north_york_alarm
-    to: armed_home
-  condition:
-  - condition: state
-    entity_id: cover.garage
-    state: open
-  action:
-  - data: {}
-    service: cover.close_cover
-    target:
-      entity_id: cover.garage
-  mode: single
 - id: '1593321973249'
   alias: Outside Lights On
   description: ''
@@ -28,10 +11,12 @@
     target:
       entity_id:
       - light.outdoorlights
-  - type: turn_on
-    device_id: 5170777a6dc3c2c8be39a8aa60b32bbd
-    entity_id: switch.plug1
-    domain: switch
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.plug1
+      - switch.living_room_lamp
   mode: single
 - id: '1596602195449'
   alias: Goodnight
@@ -53,6 +38,7 @@
       entity_id:
       - light.backyard_2
       - light.frontyard_2
+      - light.basementlights
   - service: switch.turn_off
     data: {}
     target:
@@ -112,6 +98,10 @@
   trigger:
   - platform: webhook
     webhook_id: motioneye-backyard-started
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: false
   condition: []
   action:
   - service: input_boolean.turn_on
@@ -125,6 +115,10 @@
   trigger:
   - platform: webhook
     webhook_id: motioneye-backyard-ended
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: false
   condition: []
   action:
   - service: input_boolean.turn_off
@@ -153,11 +147,16 @@
   trigger:
   - platform: webhook
     webhook_id: motioneye-garage-started
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: false
   condition: []
   action:
   - service: input_boolean.turn_on
     target:
       entity_id: input_boolean.garage_motion_detected
+    data: {}
   mode: single
 - id: '1617115348817'
   alias: Motioneye - Garage - Motion ended
@@ -165,11 +164,16 @@
   trigger:
   - platform: webhook
     webhook_id: motioneye-garage-ended
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: false
   condition: []
   action:
   - service: input_boolean.turn_off
     target:
       entity_id: input_boolean.garage_motion_detected
+    data: {}
   mode: single
 - id: '1629773116634'
   alias: BackdoorAI
@@ -191,6 +195,10 @@
   trigger:
   - platform: webhook
     webhook_id: motioneye-backyard2-started
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: false
   condition: []
   action:
   - service: input_boolean.turn_on
@@ -204,6 +212,10 @@
   trigger:
   - platform: webhook
     webhook_id: motioneye-backyard2-ended
+    allowed_methods:
+    - POST
+    - PUT
+    local_only: false
   condition: []
   action:
   - service: input_boolean.turn_off
@@ -224,28 +236,6 @@
     data:
       addon: a0d7b954_ssh
       input: /config/ha_gitpush.sh
-  mode: single
-- id: '1643859086086'
-  alias: Nigel_Work_Start
-  description: Turn basement lights on if Nigel at home during weekday.
-  trigger:
-  - platform: time
-    at: 08:45:00
-  condition:
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-    before: '17:00:00'
-    after: 08:00:00
-  - condition: state
-    state: home
-    entity_id: device_tracker.damngenius_2
-  action:
-  - scene: scene.basementlights
   mode: single
 - id: '1673200577304'
   alias: Basement Motion
@@ -282,15 +272,55 @@
   - platform: time
     at: '23:00:00'
   condition:
-  - condition: state
-    entity_id: light.outdoorlights
-    state: 'on'
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: person.nigel
+      state: not_home
+    - condition: state
+      entity_id: device_tracker.karlenes_iphone
+      state: not_home
+    - condition: state
+      entity_id: device_tracker.bry
+      state: not_home
+    - condition: state
+      entity_id: alarm_control_panel.north_york_alarm
+      state: armed_away
   action:
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
   - service: light.turn_off
     data: {}
     target:
       entity_id:
-      - light.outdoorlights
-      - light.switch1
-      - light.switch2
+      - light.backyard_2
+      - light.frontyard_2
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.switch1_2
+      - switch.switch2_2
+      - switch.plug1
+      - switch.living_room_lamp
+  mode: single
+- id: '1691016283007'
+  alias: Close Garage Door - Alarm Set To Home.
+  description: Check if garage door is open when alarm set to Home. Close if open.
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.north_york_alarm
+    to: armed_home
+  condition:
+  - condition: state
+    entity_id: cover.garage
+    state: open
+  action:
+  - service: cover.close_cover
+    data: {}
+    target:
+      entity_id: cover.garage
   mode: single
