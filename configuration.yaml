@@ -191,11 +191,6 @@ binary_sensor:
         device_class: connectivity
         value_template: "{{ is_state_attr('sensor.north_york_base_station_info', 'commStatus', 'ok') }}"
 
-    # Energy Management
-  - platform: workday
-    country: CA
-    province: "ON"
-
     # Text to speech
 tts:
   - platform: google_translate
@@ -203,4 +198,4 @@ tts:
 automation: !include automations.yaml
 sensor: !include sensors.yaml
 scene: !include scenes.yaml
-weather: !include weather.yaml
+# weather: !include weather.yaml
