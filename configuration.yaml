@@ -51,18 +51,6 @@ stream:
 # outdoor cameras (mjpeg and rtsp)
 camera:
   - platform: local_file
-    file_path: /config/www/deepstack_object_garage_latest.png
-    name: deepstack_latest_garage
-
-  - platform: local_file
-    file_path: /config/www/deepstack_object_sidegate_latest.png
-    name: deepstack_latest_sidegate
-
-  - platform: local_file
-    file_path: /config/www/deepstack_object_backdoor_latest.png
-    name: deepstack_latest_backdoor
-
-  - platform: local_file
     file_path: /config/www/deepstack_object_front_door_latest.png
     name: deepstack_latest_frontdoor
 
@@ -88,77 +76,6 @@ image_processing:
     source:
       - entity_id: camera.front_door
 
-  - platform: deepstack_object
-    ip_address: !secret deepstack_host
-    port: 5000
-    timeout: 10
-    save_file_folder: /config/www
-    save_file_format: png
-    save_timestamped_file: False
-    always_save_latest_file: True
-    targets:
-      - target: person
-        confidence: 50
-      - target: car
-        confidence: 15
-      - target: vehicle
-        confidence: 60
-    source:
-      - entity_id: camera.garage
-
-  - platform: deepstack_object
-    ip_address: !secret deepstack_host
-    port: 5000
-    timeout: 10
-    save_file_folder: /config/www
-    save_file_format: png
-    save_timestamped_file: False
-    always_save_latest_file: True
-    targets:
-      - target: person
-        confidence: 15
-      - target: bird
-        confidence: 40
-      - target: cat
-        confidence: 40
-      - target: dog
-        confidence: 40
-    source:
-      - entity_id: camera.sidegate
-
-  - platform: deepstack_object
-    ip_address: !secret deepstack_host
-    port: 5000
-    timeout: 10
-    save_file_folder: /config/www
-    save_file_format: png
-    save_timestamped_file: False
-    always_save_latest_file: True
-    targets:
-      - target: person
-        confidence: 15
-      - target: bird
-        confidence: 40
-      - target: cat
-        confidence: 40
-      - target: dog
-        confidence: 40
-    source:
-      - entity_id: camera.backdoor
-
-input_boolean:
-  sidegate_motion_detected:
-    name: Sidegate - Motion detected
-    icon: mdi:eye
-
-  backdoor_motion_detected:
-    name: Backdoor - Motion detected
-    icon: mdi:eye
-
-  garage_motion_detected:
-    name: Garage - Motion detected
-    icon: mdi:eye
-
 template:
   - sensor:
       - name: "Outdoor Humidity"
@@ -171,21 +88,6 @@ template:
 binary_sensor:
   - platform: template
     sensors:
-      sidegate_motion:
-        friendly_name: "Sidegate Camera - Movement"
-        device_class: motion
-        value_template: "{{ is_state('input_boolean.sidegate_motion_detected', 'on') }}"
-
-      backdoor_motion:
-        friendly_name: "Backdoor Camera - Movement"
-        device_class: motion
-        value_template: "{{ is_state('input_boolean.backdoor_motion_detected', 'on') }}"
-
-      garage_motion:
-        friendly_name: "Garage Camera - Movement"
-        device_class: motion
-        value_template: "{{ is_state('input_boolean.garage_motion_detected', 'on') }}"
-
       nest_connection_status:
         friendly_name: Ring Alarm
         device_class: connectivity
