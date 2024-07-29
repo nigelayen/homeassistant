@@ -77,153 +77,6 @@
       entity_id: image_processing.deepstack_object_front_door
   mode: single
   max: 10
-- id: '1616170339677'
-  alias: GarageAI
-  description: ''
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.garage_motion
-  condition: []
-  action:
-  - service: image_processing.scan
-    data: {}
-    target:
-      entity_id: image_processing.deepstack_object_garage
-  mode: parallel
-  max: 10
-- id: '1616212788722'
-  alias: Motioneye - Sidegate - Motion started
-  description: ''
-  trigger:
-  - platform: webhook
-    webhook_id: motioneye-backyard-started
-    allowed_methods:
-    - POST
-    - PUT
-    local_only: false
-  condition: []
-  action:
-  - service: input_boolean.turn_on
-    data: {}
-    target:
-      entity_id: input_boolean.sidegate_motion_detected
-  mode: single
-- id: '1616212897306'
-  alias: Motioneye - Sidegate - Motion ended
-  description: ''
-  trigger:
-  - platform: webhook
-    webhook_id: motioneye-backyard-ended
-    allowed_methods:
-    - POST
-    - PUT
-    local_only: false
-  condition: []
-  action:
-  - service: input_boolean.turn_off
-    data: {}
-    target:
-      entity_id: input_boolean.sidegate_motion_detected
-  mode: queued
-  max: 10
-- id: '1616214454392'
-  alias: SidegateAI
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.sidegate_motion
-  condition: []
-  action:
-  - service: image_processing.scan
-    data: {}
-    target:
-      entity_id: image_processing.deepstack_object_sidegate
-  mode: queued
-  max: 10
-- id: '1617115271505'
-  alias: Motioneye - Garage - Motion started
-  description: ''
-  trigger:
-  - platform: webhook
-    webhook_id: motioneye-garage-started
-    allowed_methods:
-    - POST
-    - PUT
-    local_only: false
-  condition: []
-  action:
-  - service: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.garage_motion_detected
-    data: {}
-  mode: single
-- id: '1617115348817'
-  alias: Motioneye - Garage - Motion ended
-  description: ''
-  trigger:
-  - platform: webhook
-    webhook_id: motioneye-garage-ended
-    allowed_methods:
-    - POST
-    - PUT
-    local_only: false
-  condition: []
-  action:
-  - service: input_boolean.turn_off
-    target:
-      entity_id: input_boolean.garage_motion_detected
-    data: {}
-  mode: single
-- id: '1629773116634'
-  alias: BackdoorAI
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.backdoor_motion
-  condition: []
-  action:
-  - service: image_processing.scan
-    target:
-      entity_id: image_processing.deepstack_object_backdoor
-    data: {}
-  mode: queued
-  max: 10
-- id: '1629773270589'
-  alias: Motioneye - Backdoor - Motion started
-  description: ''
-  trigger:
-  - platform: webhook
-    webhook_id: motioneye-backyard2-started
-    allowed_methods:
-    - POST
-    - PUT
-    local_only: false
-  condition: []
-  action:
-  - service: input_boolean.turn_on
-    data: {}
-    target:
-      entity_id: input_boolean.backdoor_motion_detected
-  mode: single
-- id: '1629773461364'
-  alias: Motioneye - Backdoor - Motion ended
-  description: ''
-  trigger:
-  - platform: webhook
-    webhook_id: motioneye-backyard2-ended
-    allowed_methods:
-    - POST
-    - PUT
-    local_only: false
-  condition: []
-  action:
-  - service: input_boolean.turn_off
-    data: {}
-    target:
-      entity_id: input_boolean.backdoor_motion_detected
-  mode: queued
-  max: 10
 - id: '1635131985239'
   alias: HA_Backup_To_GitHub
   description: push HA configuration to GitHub repo
@@ -275,15 +128,6 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: person.nigel
-      state: not_home
-    - condition: state
-      entity_id: device_tracker.karlenes_iphone
-      state: not_home
-    - condition: state
-      entity_id: device_tracker.bry
-      state: not_home
-    - condition: state
       entity_id: alarm_control_panel.north_york_alarm
       state: armed_away
   action:
@@ -316,11 +160,49 @@
     to: armed_home
   condition:
   - condition: state
-    entity_id: cover.garage
     state: open
+    entity_id: cover.ratgdov25i_fad8d6_door
   action:
   - service: cover.close_cover
     data: {}
+  mode: single
+- id: '1722287907406'
+  alias: StartWatchingBasementTV
+  description: ''
+  trigger:
+  - platform: device
+    device_id: d41efd9f7c7a22ab18206b924f8236ab
+    domain: media_player
+    entity_id: 1c722f99f62eb54afb6ce6f3b22c627f
+    type: turned_on
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+  condition: []
+  action:
+  - service: scene.turn_on
+    metadata: {}
     target:
-      entity_id: cover.garage
+      entity_id: scene.basementmovie
+  mode: single
+- id: '1722288093725'
+  alias: StopBasementWatchTV
+  description: ''
+  trigger:
+  - platform: device
+    device_id: d41efd9f7c7a22ab18206b924f8236ab
+    domain: media_player
+    entity_id: 1c722f99f62eb54afb6ce6f3b22c627f
+    type: turned_off
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 3
+  condition: []
+  action:
+  - service: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.basementlights
   mode: single
