@@ -40,7 +40,6 @@
 
 - platform: template
   sensors:
-    # Round up forecast temperature
     front_door_sensor_battery_level:
       friendly_name: "Front Door Sensor Battery Level"
       unit_of_measurement: "%"
@@ -52,17 +51,14 @@
     motion_sensor_battery_level:
       friendly_name: "Motion Sensor Battery Level"
       unit_of_measurement: "%"
-      value_template: "{{ state_attr('binary_sensor.hue_motion_sensor_1_motion', 'battery_level') }}"
+      value_template: "{{ state_attr('binary_sensor.motion_sensor_motion', 'battery_level') }}"
     ring_range_extender_battery_level:
       friendly_name: "Ring Range Extender Battery Level"
       unit_of_measurement: "%"
-      value_template: "{{ state_attr('sensor.living_room_info_2', 'batteryLevel') }}"
+      value_template: "{{ state_attr('binary_sensor.home_theatre_entertainment_configuration', 'batteryLevel') }}"
     ring_range_extender_comm_status:
       friendly_name: "Ring Range Extender Communication Status"
-      value_template: "{{ state_attr('sensor.living_room_info_2', 'commStatus') }}"
-    indoor_temperature:
-      friendly_name: "Indoor Temperature"
-      value_template: "{{ ((int(state_attr('climate.main_floor', 'current_temperature')) + int(states('sensor.motion_sensor_temperature')))/2)|round(0) }}"
+      value_template: "{{ state_attr('binary_sensor.home_theatre_entertainment_configuration', 'commStatus') }}"
     hydro_ontario_cost:
       unit_of_measurement: "CAD/kWh"
       value_template: >-
@@ -89,7 +85,7 @@
         {% endif %}
         {% else %}
         {% if now().hour >= 7 and now().hour < 11 %} 
-         {{ prices.mid_peak + prices.delivery }} 
+          {{ prices.mid_peak + prices.delivery }} 
         {% elif now().hour >= 11 and now().hour < 17 %}
           {{ prices.on_peak + prices.delivery }}
         {% elif now().hour >= 17 and now().hour < 19 %}
@@ -100,13 +96,3 @@
         {% endif %}
         {% endif %}
 
-    # Feels-like temperature sensor template
-    feels_like_temperature:
-      friendly_name: "Feels Like Outside"
-      value_template: >
-        {% set temperature = state_attr('weather.home', 'temperature') | round(0) %}
-        {% set humidity = state_attr('weather.home', 'humidity') | round(0) %}
-        {% set windspeedmps = states('sensor.toronto_wind_speed')|float / 3.6 %}
-        {% set wvp = (humidity/100) * 6.105 * e**((17.27*temperature) / (237.7 + temperature))%}
-        {{(temperature + 0.33 * wvp - 0.70 * windspeedmps - 4.00)|round(0)}}
-      unit_of_measurement: "°C"

@@ -24,7 +24,7 @@
       supported_color_modes:
       - brightness
       color_mode: brightness
-      brightness: 38
+      brightness: 51
       friendly_name: basement2
       supported_features: 0
       state: 'on'
@@ -32,10 +32,11 @@
       supported_color_modes:
       - brightness
       color_mode: brightness
-      brightness: 23
+      brightness: 38
       friendly_name: Basement1
       supported_features: 0
       state: 'on'
+  metadata: {}
 - id: '1634009771730'
   name: Basement Off
   entities:

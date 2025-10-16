@@ -1,8 +1,8 @@
 - platform: template
   name: "Weather Toronto"
   condition_template: "{{ states('weather.toronto_forecast') }}"
-  temperature_template: "{{ state_attr('weather.home', 'temperature') | round(0) }}"
-  humidity_template: "{{ state_attr('weather.home', 'humidity') | round(0) }}"
+  temperature_template: "{{ state_attr('weather.toronto_forecast', 'temperature') | round(0) }}"
+  humidity_template: "{{ state_attr('weather.toronto_forecast', 'humidity') | round(0) }}"
   forecast_template: >
     {% set ns = namespace(z = []) %}
     {% for x in state_attr('weather.toronto_forecast', 'forecast') %}

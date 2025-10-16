@@ -18,8 +18,6 @@ recorder:
     domains:
       - automation
       - updater
-    entity_globs:
-      - sensor.weather_*
     entities:
       - sun.sun
       - sensor.last_boot # Comes from 'systemmonitor' sensor platform
@@ -35,55 +33,18 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 172.30.33.0/24
+    - 192.168.77.0/24
 
 # System Health
 system_health:
 
 default_config:
-ios:
 
 # menubar stuff
 hassio:
 
 # Stream
 stream:
-
-# outdoor cameras (mjpeg and rtsp)
-camera:
-  - platform: local_file
-    file_path: /config/www/deepstack_object_front_door_latest.png
-    name: deepstack_latest_frontdoor
-
-# Deepstack AI
-image_processing:
-  - platform: deepstack_object
-    ip_address: !secret deepstack_host
-    port: 5000
-    timeout: 10
-    save_file_folder: /config/www
-    save_file_format: png
-    save_timestamped_file: True
-    always_save_latest_file: True
-    targets:
-      - target: person
-        confidence: 50
-      - target: car
-        confidence: 15
-      - target: vehicle
-        confidence: 60
-      - target: dog
-        confidence: 40
-    source:
-      - entity_id: camera.front_door
-
-template:
-  - sensor:
-      - name: "Outdoor Humidity"
-        unit_of_measurement: "%"
-        device_class: humidity
-        state_class: measurement
-        state: >-
-          {{ state_attr('weather.home','humidity') }}
 
 binary_sensor:
   - platform: template
@@ -100,4 +61,16 @@ tts:
 automation: !include automations.yaml
 sensor: !include sensors.yaml
 scene: !include scenes.yaml
-# weather: !include weather.yaml
+
+mqtt:
+  sensor:
+    - name: "reactive_power"
+      state_topic: "shellies/shellyem/emeter/1/reactive_power"
+    - name: "pf"
+      state_topic: "shellies/shellyem/emeter/1/pf"
+    - name: "voltage"
+      state_topic: "shellies/shellyem/emeter/1/voltage"
+    - name: "total"
+      state_topic: "shellies/shellyem/emeter/1/total"
+    - name: "total_returned"
+      state_topic: "shellies/shellyem/emeter/1/total_returned"

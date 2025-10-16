@@ -21,62 +21,59 @@
 - id: '1596602195449'
   alias: Goodnight
   description: Turn outside lights off when alarm is set to home
-  trigger:
-  - platform: state
-    entity_id: alarm_control_panel.north_york_alarm
+  triggers:
+  - entity_id: alarm_control_panel.north_york_alarm
     to: armed_home
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - delay:
       hours: 0
       minutes: 1
       seconds: 0
       milliseconds: 0
-  - service: light.turn_off
-    data: {}
+  - data: {}
     target:
       entity_id:
       - light.backyard_2
       - light.frontyard_2
       - light.basementlights
-  - service: switch.turn_off
-    data: {}
+      - light.h705b
+    action: light.turn_off
+  - data: {}
     target:
       entity_id:
       - switch.switch1_2
       - switch.switch2_2
       - switch.plug1
       - switch.living_room_lamp
+    action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: cover.ratgdov25i_fad8d6_door
+      state: open
+    then:
+    - action: cover.close_cover
+      metadata: {}
+      data: {}
+      target:
+        entity_id: cover.ratgdov25i_fad8d6_door
   mode: single
 - id: '1611716087928'
   alias: Bar Lights On
   description: ''
-  trigger:
-  - platform: sun
-    event: sunset
-  condition: []
-  action:
-  - service: switch.turn_on
-    data: {}
+  triggers:
+  - event: sunset
+    trigger: sun
+  conditions: []
+  actions:
+  - data: {}
     target:
       entity_id:
       - switch.switch1_2
       - switch.switch2_2
-      - switch.living_room_lamp
+    action: switch.turn_on
   mode: single
-- id: '1616129428006'
-  alias: FrontDoorAI
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.front_door_motion_2
-  condition: []
-  action:
-  - service: image_processing.scan
-    target:
-      entity_id: image_processing.deepstack_object_front_door
-  mode: single
-  max: 10
 - id: '1635131985239'
   alias: HA_Backup_To_GitHub
   description: push HA configuration to GitHub repo
@@ -154,37 +151,19 @@
 - id: '1691016283007'
   alias: Close Garage Door - Alarm Set To Home.
   description: Check if garage door is open when alarm set to Home. Close if open.
-  trigger:
-  - platform: state
-    entity_id: alarm_control_panel.north_york_alarm
+  triggers:
+  - entity_id: alarm_control_panel.north_york_alarm
     to: armed_home
-  condition:
+    trigger: state
+  conditions:
   - condition: state
     state: open
     entity_id: cover.ratgdov25i_fad8d6_door
-  action:
-  - service: cover.close_cover
-    data: {}
-  mode: single
-- id: '1722287907406'
-  alias: StartWatchingBasementTV
-  description: ''
-  trigger:
-  - platform: device
-    device_id: d41efd9f7c7a22ab18206b924f8236ab
-    domain: media_player
-    entity_id: 1c722f99f62eb54afb6ce6f3b22c627f
-    type: turned_on
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 5
-  condition: []
-  action:
-  - service: scene.turn_on
-    metadata: {}
+  actions:
+  - data: {}
+    action: cover.close_cover
     target:
-      entity_id: scene.basementmovie
+      entity_id: cover.ratgdov25i_fad8d6_door
   mode: single
 - id: '1722288093725'
   alias: StopBasementWatchTV
@@ -201,8 +180,100 @@
       seconds: 3
   condition: []
   action:
-  - service: scene.turn_on
-    metadata: {}
+  - metadata: {}
     target:
       entity_id: scene.basementlights
+    action: scene.turn_on
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.sync_box_light_sync
+  mode: single
+- id: '1725568637746'
+  alias: Dim Lights and Hue Sync
+  description: Dim Lights and activate Hue Sync when Apple TV is playing.
+  triggers:
+  - entity_id:
+    - media_player.apple_tv_4k
+    to: playing
+    trigger: state
+  conditions:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: media_player.denon_avr_x3800h
+      state: 'on'
+    - condition: state
+      entity_id: switch.sync_box_light_sync
+      state: 'off'
+  actions:
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: switch.sync_box_power
+  - action: switch.turn_on
+    target:
+      entity_id: switch.sync_box_light_sync
+    data: {}
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.basementmovie
+  mode: single
+- id: '1734313426225'
+  alias: Reload Apple TV Integration
+  description: Reload the Apple TV integration when state is unknown.
+  triggers:
+  - trigger: state
+    entity_id:
+    - media_player.apple_tv_4k
+    to: unavailable
+  conditions: []
+  actions:
+  - action: homeassistant.reload_config_entry
+    target:
+      device_id: 8aa56a372e804e801a5263678985a86a
+    data: {}
+  mode: single
+- id: '1734315243019'
+  alias: Reload Hue Sync Box
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.sync_box_light_sync
+    to: unavailable
+  conditions: []
+  actions:
+  - action: homeassistant.reload_config_entry
+    target:
+      device_id: eddfe24c360f2277900335eca5336284
+    data: {}
+  mode: single
+- id: '1757196092151'
+  alias: TurnClimateOnIfAlarmHome
+  description: If the thermostat is OFF when alarm is set to HOME then set thermostat
+    to HEAT/COOL
+  triggers:
+  - trigger: state
+    entity_id:
+    - alarm_control_panel.north_york_alarm
+    to: armed_home
+  conditions:
+  - condition: state
+    entity_id: climate.main_floor_2
+    state: 'off'
+  - condition: and
+    conditions:
+    - condition: time
+      after: '19:00:00'
+  actions:
+  - action: climate.set_hvac_mode
+    metadata: {}
+    data:
+      hvac_mode: heat_cool
+    target:
+      device_id: c20ccc01ba613507aad02ddc5e625b56
   mode: single
