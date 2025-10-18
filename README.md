@@ -1,3 +1,5 @@
+<img src="https://design.home-assistant.io/images/brand/logo.png" alt="Frigate" width="200"/>
+
 # Home Assistant - Setup & Configuration
 
 This repo documents the build details for my [Home Assistant](https://www.home-assistant.io) environment.
